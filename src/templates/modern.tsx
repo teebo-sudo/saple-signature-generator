@@ -1,5 +1,5 @@
 import { SignatureData } from "@/types/signature";
-import { socialIcons } from "./social-icons";
+import { socialLabels } from "./social-icons";
 
 export function modernTemplate(data: SignatureData, logoSrc: string): string {
   const {
@@ -18,21 +18,19 @@ export function modernTemplate(data: SignatureData, logoSrc: string): string {
   } = data;
 
   const socialLinks = [
-    { url: linkedin, icon: socialIcons.linkedin(primaryColor) },
-    { url: twitter, icon: socialIcons.twitter(primaryColor) },
-    { url: instagram, icon: socialIcons.instagram(primaryColor) },
+    { url: linkedin, label: socialLabels.linkedin },
+    { url: twitter, label: socialLabels.twitter },
+    { url: instagram, label: socialLabels.instagram },
   ].filter((s) => s.url);
 
   const socialHtml = socialLinks.length
-    ? `<tr><td style="padding-top:8px;">
-        <table cellpadding="0" cellspacing="0" border="0"><tr>
+    ? `<tr><td style="padding-top:6px;font-size:11px;">
         ${socialLinks
           .map(
             (s) =>
-              `<td style="padding-right:8px;"><a href="${s.url}" target="_blank" style="text-decoration:none;">${s.icon}</a></td>`
+              `<a href="${s.url}" target="_blank" style="color:${primaryColor};text-decoration:none;margin-right:10px;">${s.label}</a>`
           )
           .join("")}
-        </tr></table>
       </td></tr>`
     : "";
 
@@ -41,7 +39,7 @@ export function modernTemplate(data: SignatureData, logoSrc: string): string {
     ${
       logoSrc
         ? `<td style="vertical-align:top;padding-right:16px;">
-            <img src="${logoSrc}" alt="${company || "Logo"}" style="height:60px;max-width:60px;object-fit:contain;border-radius:8px;" />
+            <img src="${logoSrc}" alt="${company || "Logo"}" style="height:60px;max-width:60px;border-radius:8px;" />
           </td>`
         : ""
     }
@@ -54,7 +52,7 @@ export function modernTemplate(data: SignatureData, logoSrc: string): string {
         </tr>
         ${
           title || company
-            ? `<tr><td style="font-size:13px;color:#666;padding-bottom:10px;">${title}${title && company ? " · " : ""}${company}</td></tr>`
+            ? `<tr><td style="font-size:13px;color:#666;padding-bottom:10px;">${title}${title && company ? " &middot; " : ""}${company}</td></tr>`
             : ""
         }
         <tr>

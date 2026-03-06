@@ -1,5 +1,5 @@
 import { SignatureData } from "@/types/signature";
-import { socialIcons } from "./social-icons";
+import { socialLabels } from "./social-icons";
 
 export function classicTemplate(data: SignatureData, logoSrc: string): string {
   const {
@@ -18,21 +18,19 @@ export function classicTemplate(data: SignatureData, logoSrc: string): string {
   } = data;
 
   const socialLinks = [
-    { url: linkedin, icon: socialIcons.linkedin(primaryColor) },
-    { url: twitter, icon: socialIcons.twitter(primaryColor) },
-    { url: instagram, icon: socialIcons.instagram(primaryColor) },
+    { url: linkedin, label: socialLabels.linkedin },
+    { url: twitter, label: socialLabels.twitter },
+    { url: instagram, label: socialLabels.instagram },
   ].filter((s) => s.url);
 
   const socialHtml = socialLinks.length
-    ? `<tr><td style="padding-top:8px;">
-        <table cellpadding="0" cellspacing="0" border="0"><tr>
+    ? `<tr><td style="padding-top:6px;font-size:12px;">
         ${socialLinks
           .map(
             (s) =>
-              `<td style="padding-right:8px;"><a href="${s.url}" target="_blank" style="text-decoration:none;">${s.icon}</a></td>`
+              `<a href="${s.url}" target="_blank" style="color:${primaryColor};text-decoration:none;margin-right:12px;">${s.label}</a>`
           )
           .join("")}
-        </tr></table>
       </td></tr>`
     : "";
 
@@ -60,7 +58,7 @@ export function classicTemplate(data: SignatureData, logoSrc: string): string {
   </tr>
   ${
     logoSrc
-      ? `<tr><td style="padding-top:12px;"><img src="${logoSrc}" alt="${company || "Logo"}" style="height:40px;max-width:180px;object-fit:contain;" /></td></tr>`
+      ? `<tr><td style="padding-top:12px;"><img src="${logoSrc}" alt="${company || "Logo"}" style="height:40px;max-width:180px;" /></td></tr>`
       : ""
   }
 </table>`;

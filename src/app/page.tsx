@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { SignatureData, defaultSignatureData } from "@/types/signature";
+import {
+  SignatureData,
+  defaultSignatureData,
+  SAPLE_LOGO_URL,
+} from "@/types/signature";
 import { getSignatureHtml } from "@/templates";
 import { SAPLE_LOGO_BASE64 } from "@/templates/default-logo";
 import SignatureForm from "@/components/SignatureForm";
@@ -15,7 +19,14 @@ import type { TemplateKey } from "@/templates";
 export default function Home() {
   const [data, setData] = useState<SignatureData>(defaultSignatureData);
 
-  const logoSrc = data.logoBase64 || SAPLE_LOGO_BASE64;
+  // For preview: use base64 upload if available, else URL, else SAPLE base64
+  const previewLogoSrc =
+    data.logoBase64 ||
+    data.logoUrl ||
+    SAPLE_LOGO_BASE64;
+
+  // For HTML output (copy): always use URL, never base64
+  const outputLogoSrc = data.logoUrl || "";
 
   return (
     <div className="min-h-screen">
@@ -25,7 +36,7 @@ export default function Home() {
           <div className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={SAPLE_LOGO_BASE64}
+              src={SAPLE_LOGO_URL}
               alt="SAPLE"
               className="h-8"
             />
@@ -57,9 +68,12 @@ export default function Home() {
 
             <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
               <LogoUploader
+                logoUrl={data.logoUrl}
                 logoBase64={data.logoBase64}
-                defaultLogo={SAPLE_LOGO_BASE64}
-                onLogoChange={(logoBase64) =>
+                onLogoUrlChange={(logoUrl) =>
+                  setData({ ...data, logoUrl })
+                }
+                onLogoBase64Change={(logoBase64) =>
                   setData({ ...data, logoBase64 })
                 }
               />
@@ -81,9 +95,9 @@ export default function Home() {
 
           {/* Right: Preview + Copy */}
           <div className="space-y-4 lg:sticky lg:top-8 lg:self-start">
-            <SignaturePreview data={data} logoSrc={logoSrc} />
+            <SignaturePreview data={data} logoSrc={previewLogoSrc} />
             <CopyButton
-              getHtml={() => getSignatureHtml(data, logoSrc)}
+              getHtml={() => getSignatureHtml(data, outputLogoSrc)}
             />
             <p className="text-xs text-gray-400 text-center">
               HTML wird in die Zwischenablage kopiert — einfach in die

@@ -1,3 +1,6 @@
+export const SAPLE_LOGO_URL =
+  "https://raw.githubusercontent.com/teebo-sudo/saple-signature-generator/main/public/saple-logo.png";
+
 export interface SignatureData {
   name: string;
   title: string;
@@ -9,6 +12,7 @@ export interface SignatureData {
   linkedin: string;
   twitter: string;
   instagram: string;
+  logoUrl: string;
   logoBase64: string;
   primaryColor: string;
   accentColor: string;
@@ -26,6 +30,7 @@ export const defaultSignatureData: SignatureData = {
   linkedin: "",
   twitter: "",
   instagram: "",
+  logoUrl: SAPLE_LOGO_URL,
   logoBase64: "",
   primaryColor: "#000000",
   accentColor: "#ffd731",

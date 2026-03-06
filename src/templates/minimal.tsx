@@ -1,5 +1,5 @@
 import { SignatureData } from "@/types/signature";
-import { socialIcons } from "./social-icons";
+import { socialLabels } from "./social-icons";
 
 export function minimalTemplate(data: SignatureData, logoSrc: string): string {
   const {
@@ -26,31 +26,29 @@ export function minimalTemplate(data: SignatureData, logoSrc: string): string {
         return `<a href="https://${website.replace(/^https?:\/\//, "")}" style="color:${primaryColor};text-decoration:none;">${website}</a>`;
       return part;
     })
-    .join(`<span style="color:${accentColor};padding:0 6px;">·</span>`);
+    .join(`<span style="color:${accentColor};padding:0 6px;">&middot;</span>`);
 
   const socialLinks = [
-    { url: linkedin, icon: socialIcons.linkedin("#999") },
-    { url: twitter, icon: socialIcons.twitter("#999") },
-    { url: instagram, icon: socialIcons.instagram("#999") },
+    { url: linkedin, label: socialLabels.linkedin },
+    { url: twitter, label: socialLabels.twitter },
+    { url: instagram, label: socialLabels.instagram },
   ].filter((s) => s.url);
 
   const socialHtml = socialLinks.length
-    ? `<tr><td style="padding-top:6px;">
-        <table cellpadding="0" cellspacing="0" border="0"><tr>
+    ? `<tr><td style="padding-top:4px;font-size:11px;">
         ${socialLinks
           .map(
             (s) =>
-              `<td style="padding-right:6px;"><a href="${s.url}" target="_blank" style="text-decoration:none;">${s.icon}</a></td>`
+              `<a href="${s.url}" target="_blank" style="color:#999;text-decoration:none;margin-right:10px;">${s.label}</a>`
           )
           .join("")}
-        </tr></table>
       </td></tr>`
     : "";
 
   return `<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;font-size:13px;color:${primaryColor};line-height:1.5;">
   <tr>
     <td>
-      <strong style="font-size:14px;">${name}</strong>${title || company ? `<span style="color:#999;"> — ${title}${title && company ? ", " : ""}${company}</span>` : ""}
+      <strong style="font-size:14px;">${name}</strong>${title || company ? `<span style="color:#999;"> &mdash; ${title}${title && company ? ", " : ""}${company}</span>` : ""}
     </td>
   </tr>
   ${
@@ -62,7 +60,7 @@ export function minimalTemplate(data: SignatureData, logoSrc: string): string {
   ${socialHtml}
   ${
     logoSrc
-      ? `<tr><td style="padding-top:10px;"><img src="${logoSrc}" alt="${company || "Logo"}" style="height:28px;max-width:140px;object-fit:contain;opacity:0.7;" /></td></tr>`
+      ? `<tr><td style="padding-top:10px;"><img src="${logoSrc}" alt="${company || "Logo"}" style="height:28px;max-width:140px;opacity:0.7;" /></td></tr>`
       : ""
   }
 </table>`;
